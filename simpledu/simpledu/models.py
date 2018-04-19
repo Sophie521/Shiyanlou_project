@@ -1,6 +1,7 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 db = SQLAlchemy()
 
@@ -11,7 +12,7 @@ class Base(db.Model):
                         default=datetime.utcnow,
                         onupdate=datetime.utcnow)
 
-class User(Base):
+class User(Base,UserMixin):
     __tablename__ = 'user'
     
     ROLE_USER = 10
@@ -47,9 +48,6 @@ class User(Base):
     @property
     def is_staff(self):
         return self.role == self.ROLE_STAFF
-
-
-
 
 class Course(Base):
     __tablename__ = 'course'
